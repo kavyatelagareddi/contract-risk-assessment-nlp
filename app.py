@@ -84,22 +84,21 @@ if st.button("Assess Risk"):
                     st.write("---")
 
                     # Add to PDF
-                    pdf.cell(200, 10, txt=f"Clause {idx + 1}: {result['Clause']}", ln=True)
-                    pdf.cell(200, 10, txt=f"Risk Level: {result['Risk Level']}", ln=True)
-                    pdf.cell(200, 10, txt=f"Risk Assessment: {result['Risk Assessment']}", ln=True)
+                    pdf.cell(200, 10, txt=f"Clause {idx + 1}: {result['Clause']}".encode('latin-1', 'replace').decode('latin-1'), ln=True)
+                    pdf.cell(200, 10, txt=f"Risk Level: {result['Risk Level']}".encode('latin-1', 'replace').decode('latin-1'), ln=True)
+                    pdf.cell(200, 10, txt=f"Risk Assessment: {result['Risk Assessment']}".encode('latin-1', 'replace').decode('latin-1'), ln=True)
                     pdf.cell(200, 10, txt=" ", ln=True)
+                    
 
                 # Allow download of the PDF
-                pdf_output = StringIO()
-                pdf.output(pdf_output)
-                pdf_output.seek(0)
+                pdf_output = pdf.output(dest="S").encode("latin-1")
 
                 st.download_button(
                     label="Download Results as PDF",
-                    data=pdf_output.getvalue(),
+                    data=pdf_output,
                     file_name="risk_assessment_results.pdf",
                     mime="application/pdf",
-                )
+)
             except Exception as e:
                 st.error(f"An error occurred: {e}")
     else:
